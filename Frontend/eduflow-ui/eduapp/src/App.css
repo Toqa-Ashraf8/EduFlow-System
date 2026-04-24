@@ -2,9 +2,9 @@
   --primary-color: #0f172a;    
   --accent-color: #10b981;     
   --accent-hover: #059669;     
-  --bg-light: #f8fafc;        
+  --bg-light: #f8fafc;         
   --text-main: #1e293b;        
-  --text-muted: #64748b;      
+  --text-muted: #64748b;       
   --white: #ffffff;
   --border-color: #e2e8f0;     
 }
@@ -14,4 +14,5 @@ body {
   color: var(--text-main);
   font-family: 'Inter', 'Segoe UI', Roboto, sans-serif;
   margin: 0;
+  line-height: 1.5;
 }

@@ -1,13 +1,13 @@
 import React from 'react';
 import './Header.css'; 
-
+import { Link } from 'react-router-dom';
 const Header = () => {
   return (
     <nav className="navbar navbar-expand-lg custom-navbar">
       <div className="container-fluid">
-       <a className="navbar-brand" href="#">
+      <Link className="navbar-brand" to="/">
        Edu<span>Flow</span>
-      </a>
+     </Link>
         
         <button
           className="navbar-toggler"
@@ -21,40 +21,36 @@ const Header = () => {
 
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            <li className="nav-item">
-              <a className="nav-link active" href="#">Home</a>
+             <li className="nav-item">
+             <Link className="nav-link" to="/register">Register</Link>
+            </li>
+             <li className="nav-item">
+             <Link className="nav-link" to="/login">Login</Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#">Courses</a>
+             <Link className="nav-link active" to="/">Home</Link>
+            </li>
+            <li className="nav-item">
+             <Link className="nav-link" to="#">Courses</Link>
             </li>
             <li className="nav-item dropdown">
-              <a
+             <Link
                 className="nav-link dropdown-toggle"
-                href="#"
+                to="#"
                 role="button"
                 data-bs-toggle="dropdown"
               >
                 Services
-              </a>
+             </Link>
               <ul className="dropdown-menu">
-                <li><a className="dropdown-item" href="#">Schedule</a></li>
-                <li><a className="dropdown-item" href="#">Attendance</a></li>
+                <li><Link className="dropdown-item" to="#">Schedule</Link></li>
+                <li><Link className="dropdown-item" to="#">Attendance</Link></li>
                 <li><hr className="dropdown-divider" /></li>
-                <li><a className="dropdown-item" href="#">Grades</a></li>
+                <li><Link className="dropdown-item" to="#">Grades</Link></li>
               </ul>
             </li>
           </ul>
           
-          <form className="d-flex" role="search">
-            <input
-              className="form-control me-2"
-              type="search"
-              placeholder="Search student..."
-            />
-            <button className="btn btn-custom-search" type="submit">
-              Search
-            </button>
-          </form>
         </div>
       </div>
     </nav>

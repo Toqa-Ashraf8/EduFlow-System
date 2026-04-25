@@ -1,15 +1,48 @@
 import './App.css'
-import Header from './components/layouts/Header'
-import { Route,Routes } from 'react-router-dom'
+import MainHeader from './components/layouts/MainHeader'
+import { Navigate, Route,Routes } from 'react-router-dom'
 import Register from './pages/Auth/Register'
 import Login from './pages/Auth/Login'
+import { toast, ToastContainer } from 'react-toastify';
+import { useEffect } from 'react'
+import {useDispatch, useSelector} from 'react-redux'
+import { clearGlobalError } from './features/global/uiSlice'
+import AdminDashboard from './pages/dashboard/AdminDashboard'
+import ProtectedRoute from './components/protectedRoute'
+
 function App() {
+  const {globalMessage,globalError}=useSelector((state)=>state.ui);
+  const {token}=useSelector((state)=>state.auth);
+  const dispatch=useDispatch();
+  useEffect(() => {
+    if (globalError) {
+      toast.error(globalMessage || "Server error occurred",);
+      dispatch(clearGlobalError());
+    }
+  }, [globalError, globalMessage, dispatch]);
   return (
     <div>
-    <Header/>
+      <ToastContainer 
+        position="top-left"
+        autoClose={1500}
+        hideProgressBar={false}
+        newestOnTop={true}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light" 
+      />
+    {token && <MainHeader/> }
     <Routes>
+      <Route path="/" element={<Navigate to="/login" replace />} /> 
       <Route path='/register' element={<Register/>}/>
       <Route path='/login' element={<Login/>}/>
+      <Route path='/admin-dashboard' element={
+        <ProtectedRoute>
+            <AdminDashboard/>   
+        </ProtectedRoute>
+        }/>
     </Routes>
     </div>
   )

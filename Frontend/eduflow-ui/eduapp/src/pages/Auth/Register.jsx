@@ -1,8 +1,31 @@
 import React, { useState } from 'react';
 import './Register.css';
-
+import {useDispatch,useSelector} from 'react-redux'
+import { newUser } from '../../services/authServices';
+import {toast} from 'react-toastify'
+import { setUserValues } from '../../features/Auth/authSlice';
+import { useNavigate } from 'react-router-dom';
 const Register = () => {
+    const {user,userData}=useSelector((state)=>state.auth);
+    const dispatch=useDispatch();
+    const navigate=useNavigate();
+const handleChange=(e)=>{
+const {name,value}=e.target;
+dispatch(setUserValues({[name]:value}));
+}
 
+const registerNewUser=async()=>{
+    const result=await dispatch(newUser(user)).unwrap();
+    if(result.token){
+        toast.success("Account created successfully!",{
+            theme:'colored',
+            position:'top-left'
+        })
+        navigate('/admin-dashboard');
+    }
+}
+console.log("user",user)
+console.log("userData",userData);
     return (
         <div className="register-page">
             <div className="register-card">
@@ -16,7 +39,9 @@ const Register = () => {
                         <label>Full Name</label>
                         <input 
                             type="text" 
-                            name="fullName" 
+                            name="UserName" 
+                            value={user.UserName || ""}
+                            onChange={handleChange}
                             required 
                         />
                     </div>
@@ -25,7 +50,9 @@ const Register = () => {
                         <label>Email Address</label>
                         <input 
                             type="email" 
-                            name="email" 
+                            name="Email" 
+                            value={user.Email || ""}
+                            onChange={handleChange}
                             required 
                         />
                     </div>
@@ -34,7 +61,9 @@ const Register = () => {
                         <label>Password</label>
                         <input 
                             type="password" 
-                            name="password" 
+                            name="Password" 
+                            value={user.Password || ""}
+                            onChange={handleChange}
                             required 
                         />
                     </div>
@@ -49,7 +78,11 @@ const Register = () => {
                     </div>
 
                     <div className="form-actions">
-                        <button type="submit" className="btn-main">Create Account</button>
+                        <button 
+                        className="btn-main" 
+                        onClick={()=>registerNewUser()}>
+                            Create Account
+                        </button>
                     </div>
                 </div>
 

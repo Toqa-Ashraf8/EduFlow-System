@@ -9,6 +9,7 @@ import {useDispatch, useSelector} from 'react-redux'
 import { clearGlobalError } from './features/global/uiSlice'
 import AdminDashboard from './pages/dashboard/AdminDashboard'
 import ProtectedRoute from './components/protectedRoute'
+import ManageUsers from './pages/Admin/manageUsers/ManageUsers'
 
 function App() {
   const {globalMessage,globalError}=useSelector((state)=>state.ui);
@@ -41,6 +42,11 @@ function App() {
       <Route path='/admin-dashboard' element={
         <ProtectedRoute>
             <AdminDashboard/>   
+        </ProtectedRoute>
+        }/>
+        <Route path='/manageusers' element={
+        <ProtectedRoute>
+            <ManageUsers/>   
         </ProtectedRoute>
         }/>
     </Routes>

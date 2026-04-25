@@ -1,4 +1,5 @@
 ﻿using BCrypt.Net;
+using EduFlow.API.viewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -7,10 +8,12 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Data;
 using System.Data.SqlClient;
+using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.Runtime.InteropServices;
 using System.Security.Claims;
 using System.Text;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace EduFlow.API.Controllers
 {
@@ -104,6 +107,77 @@ namespace EduFlow.API.Controllers
                
             }
 
+        }
+
+        [Route("Login")]
+        [HttpPost]
+        public async Task <IActionResult> Login([FromBody] userInfo loginInfo)
+        {
+            bool islogged = false;
+            DataTable dt = new DataTable();
+
+            if (loginInfo == null || string.IsNullOrEmpty(loginInfo.Email))
+                return BadRequest(new { error = "user data is not filled" });
+
+            await conn.OpenAsync();
+
+            try
+            {
+                string searchUser = @"select * from Users where Email=@Email";
+                using (SqlCommand cmd = new SqlCommand(searchUser, conn))
+                {
+                    cmd.Parameters.AddWithValue("@Email", loginInfo.Email);
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    da.Fill(dt);
+                }
+                if (dt.Rows.Count == 0)
+                    return Unauthorized(new { message = "user is not existed" });
+
+                await conn.CloseAsync();
+                string savedPassword = dt.Rows[0]["Password"].ToString();
+                bool isPasswordValid = BCrypt.Net.BCrypt.EnhancedVerify(loginInfo.Password, savedPassword);
+
+                if (!isPasswordValid)
+                    return Unauthorized(new { message = "password is not correct" });
+
+                var userData = new
+                {
+                    UserID = Convert.ToInt32(dt.Rows[0]["UserID"]),
+                    UserName = dt.Rows[0]["UserName"].ToString(),
+                    Email = dt.Rows[0]["Email"].ToString(),
+                    Role = dt.Rows[0]["Role"].ToString()
+                };
+
+                var claims = new[]
+                {
+                    new Claim(ClaimTypes.Name, dt.Rows[0]["UserName"].ToString()),
+                    new Claim(ClaimTypes.Role, dt.Rows[0]["Role"].ToString()),
+             };
+
+                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwt.SecretKey));
+                var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+                var token = new JwtSecurityToken(
+                    issuer: "MyEduFlowApi",
+                    audience: "MyEduFlowApp",
+                    claims: claims,
+                    expires: DateTime.Now.AddHours(2),
+                    signingCredentials: creds
+                );
+
+                return Ok(new
+                {
+                    token = new JwtSecurityTokenHandler().WriteToken(token),
+                    user = userData,
+                    islogged = true
+                });
+
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "Internal Server Error");
+            }
+           
         }
     }
 }

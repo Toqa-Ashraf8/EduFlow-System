@@ -15,14 +15,17 @@ dispatch(setUserValues({[name]:value}));
 }
 
 const registerNewUser=async()=>{
+    try {
     const result=await dispatch(newUser(user)).unwrap();
     if(result.token){
         toast.success("Account created successfully!",{
             theme:'colored',
-            position:'top-left'
+            position:'top-right'
         })
         navigate('/admin-dashboard');
     }
+    } catch (error) {}  
+   
 }
 console.log("user",user)
 console.log("userData",userData);

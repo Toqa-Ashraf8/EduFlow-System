@@ -1,8 +1,47 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './Login.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginUser } from '../../services/authServices';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
+import { setUserValues } from '../../features/Auth/authSlice';
 
 const Login = () => {
- 
+ const {user,userData}=useSelector((state)=>state.auth);
+ const dispatch=useDispatch();
+ const navigate=useNavigate();
+ const emailRef=useRef();
+
+const handleChange=(e)=>{
+    const {name,value}=e.target;
+    dispatch(setUserValues({[name]:value}));
+}
+useEffect(()=>{
+    if(emailRef) emailRef.current.focus();
+},[])
+
+ const confirmLogin=async()=>{
+    if (!user.Email || !user.Password) {
+        toast.error("Please enter both email and password");
+        return;
+    }
+    try {
+         const result=await dispatch(loginUser(user)).unwrap();
+         if(result.token){
+            toast.success("Welcome Back To EduFlow !",{
+                theme:'colored',
+                position:'top-right'
+            })
+            navigate('/admin-dashboard');
+         }
+    } 
+    catch (error) {}
+ }
+const handleLogin=(e)=>{
+    if(e.key==='Enter'){
+        confirmLogin();
+    }
+}
 
     return (
         <div className="login-page">
@@ -12,12 +51,15 @@ const Login = () => {
                     <p>Login to access your EduFlow dashboard</p>
                 </div>
 
-                <div className="login-form">
+                <div className="login-form" onKeyDown={handleLogin}>
                     <div className="horizontal-group">
                         <label>Email Address</label>
                         <input 
                             type="email" 
-                            name="email" 
+                            name="Email"
+                            ref={emailRef} 
+                            value={user.Email || ""}
+                            onChange={handleChange}
                             required 
                         />
                     </div>
@@ -26,13 +68,19 @@ const Login = () => {
                         <label>Password</label>
                         <input 
                             type="password" 
-                            name="password" 
+                            name="Password" 
+                            value={user.Password || ""}
+                            onChange={handleChange}
                             required 
                         />
                     </div>
 
                     <div className="form-actions">
-                        <button type="submit" className="btn-main">Login Now</button>
+                    <button 
+                        className="btn-main"
+                        onClick={()=>confirmLogin()}
+                        >Login 
+                    </button>
                     </div>
                 </div>
 

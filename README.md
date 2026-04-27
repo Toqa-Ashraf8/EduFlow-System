@@ -1,4 +1,4 @@
-# Eduflow | Smart Academic Management System
+# Eduflow | Smart Academic Management System (Work in Progress)
 
 A Full-Stack Academic Management System built to digitize university operations. The project focuses on handling complex roles (Admin, Doctor, Student) and automating campus workflows like attendance and scheduling.
 

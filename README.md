@@ -29,11 +29,11 @@ A Full-Stack Academic Management System built to digitize university operations.
 ##  System Workflow (Business Logic)
 ```mermaid
 graph TD
-A[Admin] -->|Manages| B(Instructors & Students)
-B -->|Instructors| C[Academic Records]
-B -->|Students| D[Student Activity]
-C -->|Notifications| D
-D -->|Meeting Requests| C
+A[Admin] -->|Manages| B(System Users)
+B -->|Instructors| C[Academic Data]
+B -->|Students| D[Enrolled Tasks]
+C -->|Alerts| D
+D -->|Requests| C
 ```
 ## 🔧 Installation & Setup
 1. Clone the repo: `git clone https://github.com/Toqa-Ashraf8/EduFlow-System.git`

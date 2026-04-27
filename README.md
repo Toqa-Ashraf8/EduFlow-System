@@ -30,8 +30,8 @@ A Full-Stack Academic Management System built to digitize university operations.
 ```mermaid
 graph TD
 A[Admin] -->|Manages| B(Instructors & Students)
-B -->|Instructors| C[Schedules,Grades & Warnings]
-B -->|Students| D[Courses & Record Attendance]
+B -->|Instructors| C[Academic Records]
+B -->|Students| D[Student Activity]
 C -->|Notifications| D
 D -->|Meeting Requests| C
 ```

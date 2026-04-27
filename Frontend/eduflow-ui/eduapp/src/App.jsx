@@ -1,4 +1,5 @@
 import './App.css'
+import 'react-toastify/dist/ReactToastify.css';
 import MainHeader from './components/layouts/MainHeader'
 import { Navigate, Route,Routes } from 'react-router-dom'
 import Register from './pages/Auth/Register'
@@ -10,6 +11,7 @@ import { clearGlobalError } from './features/global/uiSlice'
 import AdminDashboard from './pages/dashboard/AdminDashboard'
 import ProtectedRoute from './components/protectedRoute'
 import ManageUsers from './pages/Admin/manageUsers/ManageUsers'
+import UsersTable from './pages/Admin/manageUsers/UsersTable'
 
 function App() {
   const {globalMessage,globalError}=useSelector((state)=>state.ui);
@@ -17,7 +19,9 @@ function App() {
   const dispatch=useDispatch();
   useEffect(() => {
     if (globalError) {
-      toast.error(globalMessage || "Server error occurred",);
+      toast.error(globalMessage || "Server error occurred",{
+        theme:'colored',
+      });
       dispatch(clearGlobalError());
     }
   }, [globalError, globalMessage, dispatch]);
@@ -49,7 +53,13 @@ function App() {
             <ManageUsers/>   
         </ProtectedRoute>
         }/>
+        <Route path='/users' element={
+        <ProtectedRoute>
+            <UsersTable/>   
+        </ProtectedRoute>
+        }/>
     </Routes>
+    
     </div>
   )
 }

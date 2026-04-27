@@ -54,10 +54,11 @@ namespace EduFlow.API.Controllers
                         }
                     }
                         string hashPassword = BCrypt.Net.BCrypt.EnhancedHashPassword(user.Password);
-                        string insertUser = @"insert into Users (UserName,Email,Password,Role) values
-                                             (@UserName,@Email,@Password,@Role)select SCOPE_IDENTITY()";
+                        string insertUser = @"insert into Users (AcademicID,UserName,Email,Password,Role) values
+                                             (@AcademicID,@UserName,@Email,@Password,@Role)select SCOPE_IDENTITY()";
                         using(SqlCommand cmd=new SqlCommand(insertUser, conn, transaction))
                         {
+                            cmd.Parameters.AddWithValue("@AcademicID", user.AcademicID);
                             cmd.Parameters.AddWithValue("@UserName", user.UserName);
                             cmd.Parameters.AddWithValue("@Email", user.Email);
                             cmd.Parameters.AddWithValue("@Password", hashPassword);

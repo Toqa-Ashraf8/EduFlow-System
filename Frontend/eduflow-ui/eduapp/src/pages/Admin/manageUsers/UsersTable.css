@@ -1,0 +1,222 @@
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&display=swap');
+.page-wrapper {
+  padding: 40px 20px;
+  font-family: 'Geist', 'Segoe UI', sans-serif; 
+  background-color: var(--bg-light);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+}
+.table-card {
+  width: 100%;
+  max-width: 1200px;
+  background: var(--white);
+  border-radius: 12px; 
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+  border: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  max-height: 750px;
+  overflow: hidden;
+}
+.table-controls {
+  padding: 20px 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  border-bottom: 1px solid var(--border-color);
+}
+.title-group h3 {
+  margin: 0 0 6px 0;
+  font-size: 1.15rem;
+  color: var(--primary-color);
+  font-weight: 600; 
+  letter-spacing: -0.3px;
+}
+.stats-pills {
+  display: flex;
+  gap: 8px;
+}
+.stat-pill {
+  font-size: 0.7rem; 
+  font-weight: 500;
+  padding: 3px 12px;
+  border-radius: 50px;
+  border: 1px solid var(--border-color);
+  background: #fdfdfd;
+}
+.stat-pill.student { 
+  color: #475569; 
+}
+.stat-pill.instructor { 
+  color: #475569; 
+}
+.search-box {
+  position: relative;
+  min-width: 280px;
+}
+.search-box input {
+  width: 100%;
+  padding: 8px 12px 8px 35px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-light);
+  font-size: 0.85rem;
+  transition: all 0.2s;
+  color: var(--text-main);
+}
+.search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  opacity: 0.7;
+}
+
+.scroll-area {
+  overflow-y: auto;
+  flex-grow: 1;
+}
+
+.elite-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.elite-table thead th {
+  position: sticky;
+  top: 0;
+  background: #f9fbff;
+  z-index: 10;
+  padding: 14px 25px;
+  text-align: left;
+  font-size: 0.65rem; 
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border-color);
+  font-weight: 600;
+}
+.elite-table tbody td {
+  padding: 14px 25px;
+  border-bottom: 1px solid #f1f5f9;
+  color: var(--text-main);
+  vertical-align: middle;
+  font-size: 0.9rem; 
+}
+.name { 
+  font-weight: 500; 
+  margin: 0; 
+  color: var(--text-main); 
+}
+.email { 
+  font-size: 0.8rem; 
+  color: var(--text-muted); 
+  margin: 0; 
+  font-weight: 400;
+}
+.id-text { 
+  font-family: 'JetBrains Mono', monospace; 
+  font-size: 0.8rem; 
+  color: var(--text-muted); 
+}
+.badge-role {
+  padding: 3px 10px;
+  border-radius: 5px;
+  font-size: 0.7rem;
+  font-weight: 500;
+  border: 1px solid transparent;
+}
+
+.badge-role.admin { 
+  color: #e11d48; 
+}
+.badge-role.instructor { 
+  color: #16a34a; 
+}
+
+.btn-edit {
+  cursor: pointer;
+  display: flex;
+  justify-content: flex-start;
+  padding: 6px;
+  border-radius: 6px;
+  color: var(--text-muted);
+  transition: 0.2s ease;
+}
+
+.btn-edit:hover {
+  transform: translateY(-1px);
+}
+
+.text-right { 
+  text-align: right; 
+}
+
+.table-footer {
+  padding: 12px 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--border-color); 
+  background-color: #ffffff;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+
+.page-info {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.pagination-btns {
+  display: flex;
+  gap: 8px;
+}
+
+.pagination-btns button {
+  background: white;
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+
+.pagination-btns button:hover:not(:disabled) {
+  background-color: var(--bg-light);
+  border-color: var(--accent-color);
+  color: var(--accent-color);
+  transform: translateY(-1px);
+}
+
+
+.pagination-btns button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  background-color: #f8fafc;
+}
+
+.pagination-btns button svg {
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .hide-mobile { 
+    display: none; 
+  }
+  .table-controls { 
+    padding: 15px; 
+  }
+  .search-box { 
+    min-width: 100%; 
+  }
+}

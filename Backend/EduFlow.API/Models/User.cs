@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
     {
          [Key]
          public int UserID { get; set; }
+         public int? AcademicID { get; set; }
          [Required] 
          public string UserName { get; set; }
          [Required]

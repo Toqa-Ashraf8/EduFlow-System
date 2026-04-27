@@ -3,6 +3,7 @@ import { loginUser, newUser } from '../../services/authServices';
 const initialState={
     user:{
         UserID:0,
+        AcademicID:0,
         UserName:"",
         Email:"",
         Password:"",

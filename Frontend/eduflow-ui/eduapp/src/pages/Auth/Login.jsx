@@ -28,7 +28,7 @@ useEffect(()=>{
     try {
          const result=await dispatch(loginUser(user)).unwrap();
          if(result.token){
-            toast.success("Welcome Back To EduFlow !",{
+            toast.success("Welcome Back To EduFlow!",{
                 theme:'colored',
                 position:'top-right'
             })

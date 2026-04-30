@@ -34,8 +34,8 @@ const handleEdit=(index)=>{
             <h3>Community Directory</h3>
             <div className="stats-pills">
                  <span className="stat-pill instructor">{pagination.totalCount} All</span>
-              <span className="stat-pill student">{0} Students</span>
-              <span className="stat-pill instructor">{0} Instructors</span>
+              <span className="stat-pill student">{pagination.studentsCount} Students</span>
+              <span className="stat-pill instructor">{pagination.instructorsCount} Instructors</span>
             </div>
           </div>
           

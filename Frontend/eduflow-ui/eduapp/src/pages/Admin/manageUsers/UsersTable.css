@@ -37,6 +37,7 @@
 .stats-pills {
   display: flex;
   gap: 8px;
+  cursor: pointer;
 }
 .stat-pill {
   font-size: 0.7rem; 

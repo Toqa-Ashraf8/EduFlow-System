@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './ManageUsers.css';
-import { Save, Search, Trash2, RotateCcw } from 'lucide-react';
+import { Save, Search, Trash2, RotateCcw, Users } from 'lucide-react';
 import {useDispatch,useSelector} from 'react-redux'
 import { resetForm, setUserFormData, toggleDeleteuserModal } from '../../../features/Admin/usersManagementSlice';
 import {useNavigate} from 'react-router-dom'
@@ -9,6 +9,7 @@ import {toast} from 'react-toastify'
 import DeleteUserModal from './modals/DeleteUserModal';
 
 const ManageUsers = () => {
+    const {token}=useSelector((state)=>state.auth);
     const {selectedUser,isDeleteUserModal}=useSelector((state)=>state.usersManagement);
     const dispatch=useDispatch();
     const navigate=useNavigate();
@@ -42,6 +43,7 @@ const handleSave=async()=>{
          }
     } catch (error) {}   
 }
+
 const handleDelete=()=>{
     if(selectedUser.UserID===0){
         toast.error("User selection required before deletion!",{
@@ -60,82 +62,89 @@ if(nameRef)nameRef.current.focus();
 },[])
 
     return (
-        <div className="manage-users-page">
-            {isDeleteUserModal && <DeleteUserModal/>}
-            <h4 className="page-main-title">User Management Center</h4>
+    <div className="manage-users-page">
+            {isDeleteUserModal && <DeleteUserModal />}
             <div className="content-wrapper">
                 <div className="side-actions-bar">
-                    <button className="action-icon-btn btn-reset" title="Clear All Fields">
-                        <RotateCcw size={20} color='#f59e0b' onClick={handleClear} />
-                    </button>
-                    <button className="action-icon-btn btn-save" title="Save User Data">
-                        <Save size={20} color='#10b981' onClick={handleSave}/>
-                    </button>
-                     <button className="action-icon-btn btn-delete" title="Delete Account">
-                        <Trash2 size={20} color='#ef4444' onClick={handleDelete}/>
-                    </button>
-                    <button className="action-icon-btn btn-search" title="Search for User">
-                        <Search size={20} color='#3b82f6' onClick={()=>navigate('/users')} />
-                    </button>
-                   
+                    <div className="sidebar-top-icon">
+                        <Users size={24} color="#818cf8" />
+                    </div>
+                    <div className="sidebar-actions-group">
+                        <button className="action-icon-btn btn-reset" title="Clear All Fields" onClick={handleClear}>
+                            <RotateCcw size={20} />
+                        </button>
+                        <button className="action-icon-btn btn-save" title="Save User Data" onClick={handleSave}>
+                            <Save size={20} />
+                        </button>
+                        <button className="action-icon-btn btn-delete" title="Delete Account" onClick={handleDelete}>
+                            <Trash2 size={20} />
+                        </button>
+                        <button className="action-icon-btn btn-search" title="Search for User" onClick={() => navigate('/users')}>
+                            <Search size={20} />
+                        </button>
+                    </div>
                 </div>
+
                 <div className="form-master-card">
+                    <div className="card-header-simple">
+                        <h4>User Management Center</h4>
+                        <p>Configure user credentials and system permissions</p>
+                    </div>
+
                     <div className='body-cnt'>
-                        <div className="master-form-group">
-                            <label>ID</label>
-                            <input 
-                            className='inputId'
-                            type="text" 
-                            name="UserID"
-                            value={selectedUser.UserID || 0}
-                            ref={idRef}
-                            />
+                        <div className="form-row-split">
+                            <div className="master-form-group">
+                                <label>System ID</label>
+                                <input 
+                                className='inputId-small' 
+                                type="text" 
+                                name="UserID" 
+                                value={selectedUser.UserID || 0} 
+                                ref={idRef} 
+                                readOnly />
+                            </div>
+                            <div className="master-form-group">
+                                <label>Academic ID</label>
+                                <input 
+                                type="text" 
+                                name="AcademicID" 
+                                value={selectedUser.AcademicID || 0} 
+                                onChange={handleChange} />
+                            </div>
                         </div>
-                         <div className="master-form-group">
-                            <label>Academic ID</label>
-                            <input 
-                            type="text" 
-                            name="AcademicID"
-                            value={selectedUser.AcademicID || 0}
-                            onChange={handleChange}
-                            />
-                        </div>
-                        <div className="master-form-group">
+
+                        <div className="master-form-group full-width-row">
                             <label>Full Name</label>
                             <input 
                             type="text" 
-                            name="UserName"
-                            value={selectedUser.UserName || ""}
-                            onChange={handleChange}
-                            ref={nameRef}  />
+                            name="UserName" 
+                            value={selectedUser.UserName || ""} 
+                            onChange={handleChange} 
+                            ref={nameRef} />
                         </div>
-                        <div className="master-form-group">
+
+                        <div className="master-form-group full-width-row">
                             <label>Email Address</label>
                             <input 
                             type="email" 
-                            name="Email"
-                            value={selectedUser.Email || ""}
-                            onChange={handleChange}
-                            />
+                            name="Email" 
+                            value={selectedUser.Email || ""} 
+                            onChange={handleChange} 
+                             />
                         </div>
 
-                        <div className="master-form-group">
-                            <label>Access Password</label>
+                        <div className="master-form-group full-width-row">
+                            <label>Password</label>
                             <input 
                             type="password" 
                             name="Password" 
-                            value={selectedUser.Password || ""}
-                            onChange={handleChange}
-                            />
+                            value={selectedUser.Password || ""} 
+                            onChange={handleChange} />
                         </div>
 
-                        <div className="master-form-group">
-                            <label>Role</label>
-                            <select 
-                            name="Role"
-                            value={selectedUser.Role || ""}
-                            onChange={handleChange}
-                            >
+                        <div className="master-form-group full-width-row">
+                            <label>User Role</label>
+                            <select name="Role" value={selectedUser.Role || ""} onChange={handleChange}>
                                 <option value="-1">-- choose --</option>
                                 <option value="Student">Student</option>
                                 <option value="Instructor">Academic Doctor</option>

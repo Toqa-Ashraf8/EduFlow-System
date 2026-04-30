@@ -1,0 +1,235 @@
+.subjects-mgmt-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f1f5f9;
+    min-height: 100vh;
+    padding: 20px;
+    font-family: 'Outfit', sans-serif;
+}
+
+.subjects-main-layout {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    max-width: 1100px;
+}
+
+.subjects-sidebar-pro {
+  width: 70px;
+    background: #0f172a;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px 0;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    flex-shrink: 0;
+    align-self: flex-start; 
+}
+
+.sidebar-top-icon {
+    margin-bottom: 35px;
+}
+
+.sidebar-actions-group {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.pro-side-btn {
+    background: transparent;
+    border: none;
+    color: #64748b;
+    width: 45px;
+    height: 45px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pro-side-btn:hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.05);
+    transform: translateY(-2px);
+}
+
+.btn-save:hover { 
+    color: #10b981; 
+    background: rgba(16, 185, 129, 0.1); 
+}
+.btn-reset:hover { 
+    color: #f59e0b; 
+    background: rgba(245, 158, 11, 0.1); 
+}
+.btn-delete:hover { 
+    color: #ef4444; 
+    background: rgba(239, 68, 68, 0.1); 
+}
+.btn-view:hover { 
+    color: #3b82f6; 
+    background: rgba(59, 130, 246, 0.1); 
+}
+
+.subjects-wide-card {
+    flex: 1;
+    background: #ffffff;
+    border-radius: 24px;
+    padding: 35px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e2e8f0;
+}
+
+.header-main-text {
+    font-size: 1.3rem;
+    color: #1e293b;
+    font-weight: 700;
+}
+
+.header-sub-text {
+    color: #94a3b8;
+    font-size: 0.85rem;
+    margin-bottom: 25px;
+    margin-top: 5px;
+}
+
+.header-title-set {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.header-icon {
+     color: #6366f1; 
+}
+
+.subjects-form-body {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.sub-form-row {
+    display: flex;
+    flex-wrap: wrap; 
+    gap: 20px;
+}
+
+.sub-field-group {
+    flex: 1;
+    min-width: 220px; 
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.sub-field-group label {
+    font-weight: 600;
+    color: #64748b;
+    font-size: 0.85rem;
+}
+
+input, .slot-input-wrapper {
+    padding: 10px 14px;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    background: #f8fafc;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+}
+
+input:hover, .slot-input-wrapper:hover {
+    border-color: #818cf8;
+}
+
+input:focus, .slot-input-wrapper:focus-within {
+    outline: none;
+    border-color: #6366f1;
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+}
+
+.instructors-panel-compact, .schedule-panel-compact {
+    background: #f8fafc;
+    border-radius: 16px;
+    padding: 20px;
+    border: 1px solid #f1f5f9;
+}
+
+.panel-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #6366f1;
+    font-weight: 700;
+    font-size: 0.8rem;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+}
+
+.wrap-logic {
+    display: flex;
+    flex-wrap: wrap; 
+    gap: 15px; 
+}
+
+.ins-input {
+    flex: 1;
+    min-width: 220px; 
+}
+
+.slot-input-wrapper {
+    flex: 1;
+    min-width: 280px;
+    display: flex;
+    align-items: center;
+    padding-left: 10px;
+}
+
+.slot-tag {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #6366f1;
+    background: #eef2ff;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-right: 8px;
+}
+
+.slot-input-wrapper input {
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .subjects-mgmt-wrapper {
+        align-items: flex-start;
+        overflow-y: auto;
+    }
+    
+    .subjects-main-layout {
+        flex-direction: column;
+    }
+    
+    .subjects-sidebar-pro {
+        width: 100%;
+        height: auto;
+        flex-direction: row;
+        justify-content: space-around;
+        padding: 10px;
+    }
+    
+    .sidebar-actions-group {
+        flex-direction: row;
+    }
+    
+    .sidebar-top-icon { 
+        display: none; 
+    }
+}

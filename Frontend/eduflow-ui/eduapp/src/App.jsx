@@ -12,6 +12,7 @@ import AdminDashboard from './pages/dashboard/AdminDashboard'
 import ProtectedRoute from './components/protectedRoute'
 import ManageUsers from './pages/Admin/manageUsers/ManageUsers'
 import UsersTable from './pages/Admin/manageUsers/UsersTable'
+import ManageCourses from './pages/Admin/manageCourses/ManageCourses';
 
 function App() {
   const {globalMessage,globalError}=useSelector((state)=>state.ui);
@@ -56,6 +57,11 @@ function App() {
         <Route path='/users' element={
         <ProtectedRoute>
             <UsersTable/>   
+        </ProtectedRoute>
+        }/>
+        <Route path='/addcourses' element={
+        <ProtectedRoute>
+            <ManageCourses/>   
         </ProtectedRoute>
         }/>
     </Routes>

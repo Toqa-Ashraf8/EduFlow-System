@@ -93,10 +93,18 @@ namespace EduFlow.API.Controllers
             DataTable dt = new DataTable();
             int offset = (pageNumber - 1) * pageSize;
             int totalCount = 0;
+            int studentsCount = 0;
+            int instructorsCount = 0;
             string getUser = @"select UserID,AcademicID,UserName,Email,Role from Users order by UserID  
                                offset @offset rows fetch next @pageSize rows only";
-            string countQuery = "SELECT COUNT(*) FROM Users";
 
+            string countAll = "SELECT COUNT(*) FROM Users";
+
+            string countStudents = "SELECT COUNT(*) FROM Users where Role=@Role";
+
+            string countInstructors = "SELECT COUNT(*) FROM Users where Role=@Role";
+
+            if (conn.State != ConnectionState.Open) await conn.OpenAsync();
             using (SqlCommand cmd = new SqlCommand(getUser, conn))
             {
                 cmd.Parameters.AddWithValue("@offset", offset);
@@ -105,15 +113,30 @@ namespace EduFlow.API.Controllers
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 da.Fill(dt);
             }
-            using (SqlCommand cmdCount = new SqlCommand(countQuery, conn))
+            using (SqlCommand cmdCount = new SqlCommand(countAll, conn))
             {
-                if (conn.State != ConnectionState.Open) await conn.OpenAsync();
+               
                 totalCount = (int)await cmdCount.ExecuteScalarAsync();
             }
+            using (SqlCommand cmd = new SqlCommand(countStudents, conn))
+            {
+               
+                cmd.Parameters.AddWithValue("@Role", "Student");
+                studentsCount = (int)await cmd.ExecuteScalarAsync();
+            }
+            using (SqlCommand cmd = new SqlCommand(countInstructors, conn))
+            {
+               
+                cmd.Parameters.AddWithValue("@Role", "Instructor");
+                instructorsCount = (int)await cmd.ExecuteScalarAsync();
+            }
+            if (conn.State != ConnectionState.Closed) await conn.CloseAsync();
             return Ok(new
             {
                 users = dt,
-                totalCount = totalCount
+                totalCount = totalCount,
+                studentsCount= studentsCount,
+                instructorsCount= instructorsCount
             });
         }
 

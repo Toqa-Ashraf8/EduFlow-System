@@ -14,7 +14,9 @@ const initialState={
     pagination: {
         currentPage: 1,
         pageSize: 10,
-        totalCount: 0 
+        totalCount: 0 ,
+        studentsCount:0,
+        instructorsCount:0
     },
     isDeleteUserModal:false
 
@@ -45,6 +47,8 @@ const usersManagementSlice=createSlice({
         .addCase(fetchUsers.fulfilled, (state, action) => {
         state.allUsers = action.payload.users; 
         state.pagination.totalCount = action.payload.totalCount;
+        state.pagination.studentsCount = action.payload.studentsCount;
+        state.pagination.instructorsCount = action.payload.instructorsCount;
       }) 
       .addCase(saveUsers.fulfilled, (state, action) => {
         state.selectedUser.UserID = action.payload.id; 

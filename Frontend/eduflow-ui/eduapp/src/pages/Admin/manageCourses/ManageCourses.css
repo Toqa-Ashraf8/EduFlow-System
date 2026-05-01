@@ -233,3 +233,26 @@ input:focus, .slot-input-wrapper:focus-within {
         display: none; 
     }
 }
+.days-flex-group {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.day-chip {
+    padding: 8px 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    background: white;
+    color: #64748b;
+}
+
+.day-chip.active {
+    background: #818cf8; 
+    color: white;
+    border-color: #818cf8;
+    box-shadow: 0 4px 6px -1px rgba(129, 140, 248, 0.4);
+}

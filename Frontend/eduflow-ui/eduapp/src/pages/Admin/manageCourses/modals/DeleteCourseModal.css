@@ -1,0 +1,124 @@
+.course-delete-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(2, 6, 23, 0.6); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    animation: courseFadeIn 0.25s ease-out;
+}
+
+.course-delete-modal-card {
+    background: #ffffff;
+    width: 90%;
+    max-width: 380px;
+    border-radius: 20px;
+    padding: 24px;
+    position: relative;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    text-align: center;
+    animation: courseSlideUp 0.3s ease-out;
+}
+
+@keyframes courseFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes courseSlideUp {
+    from { 
+        transform: translateY(20px); 
+        opacity: 0; 
+    }
+    to { 
+        transform: translateY(0); 
+        opacity: 1; 
+    }
+}
+
+.course-modal-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: #f8fafc;
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #94a3b8;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.course-modal-close:hover {
+    background: #fee2e2;
+    color: #ef4444;
+}
+
+.course-delete-icon-box {
+    width: 64px;
+    height: 64px;
+    background: #fff1f2;
+    color: #e11d48;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 8px auto 16px;
+}
+
+.course-delete-body h3 {
+    color: #0f172a;
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.course-delete-body p {
+    color: #64748b;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 24px;
+}
+
+.course-delete-footer {
+    display: flex;
+    gap: 10px;
+}
+
+.course-btn {
+    flex: 1;
+    padding: 12px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+}
+
+.course-btn-cancel {
+    background: #f1f5f9;
+    color: #475569;
+}
+
+.course-btn-danger {
+    background: #e11d48;
+    color: white;
+}
+
+.course-btn-cancel:hover {
+    background: #e2e8f0;
+}
+
+.course-btn-danger:hover {
+    background: #be123c;
+    transform: translateY(-1px);
+}

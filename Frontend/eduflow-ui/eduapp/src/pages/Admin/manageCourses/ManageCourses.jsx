@@ -9,27 +9,87 @@ import {
     LayoutGrid, 
     Clock, 
     UserCircle2,
-    BookOpen
+    BookOpen,
+    Save 
 } from 'lucide-react';
 import {useSelector,useDispatch} from 'react-redux'
-import { setCoursesValues } from '../../../features/Admin/CoursesManagementSlice';
+import { resetForm,setCoursesValues, toggleDeleteModal } from '../../../features/Admin/coursesManagementSlice';
+import { saveCourses } from '../../../services/CoursesManagementService';
+import {toast} from 'react-toastify'
+import { useNavigate } from 'react-router-dom';
+import DeleteCourseModal from './modals/DeleteCourseModal';
 const ManageCourses = () => {
-    const {course}=useSelector((state)=>state.courseManagement);
+    const {course , isDeleteModalOpen}=useSelector((state)=>state.courseManagement);
     const dispatch=useDispatch();
     const codeRef = useRef();
+    const navigte=useNavigate();
 
-const handleChange=(e)=>{
-    const{name,value}=e.target;
-    dispatch(setCoursesValues({[name]:value}));
+const handleChange = (e) => {
+    const { name, value } = e.target;
+    const isInstructorField = ['PrimaryDoctor', 'Assistant1', 'Assistant2'].includes(name);
+    const isScheduleField = ['Days', 'Lectures'].includes(name);
+    let nestedLevel = 0;
+    if (isInstructorField) nestedLevel = 1 
+     else if (isScheduleField) nestedLevel = 2 
+    dispatch(setCoursesValues({
+        nested: nestedLevel, 
+        value: { [name]: value }
+    }));
+};
+const handleDayChange = (e) => {
+    const { value, checked } = e.target;
+    let currentDays = course.Schedule.Days ? course.Schedule.Days.split(', ') : [];
+
+    if (checked) {
+        currentDays.push(value); 
+    } else {
+        currentDays = currentDays.filter(day => day !== value); 
+    }
+
+    dispatch(setCoursesValues({
+        nested: 2, 
+        value: { Days: currentDays.join(', ') }
+    }));
+};
+
+const handleClear=()=>{
+    dispatch(resetForm());
+    codeRef.current.focus();
 }
 
+const handleSave=async()=>{
+    try {
+        const result=await dispatch(saveCourses(course)).unwrap();
+        const {saved,updated}=result;
+        if(saved){
+            toast.success("Data Saved Successfully",{
+                theme:'colored'
+            })
+        }
+        if(updated){
+            toast.success("Data updated Successfully",{
+                theme:'colored'
+            })
+        }
+    } catch (error) { }
+        
+}
 
-    useEffect(() => {
-        if (codeRef.current) codeRef.current.focus();
-    }, []);
-console.log("course",course);
+const handleDelete=()=>{
+    if(course.Serial===0){
+        toast.error("Course selection required before deletion!",{
+            theme:'colored'
+        })
+        return;
+    }
+    dispatch(toggleDeleteModal(true));
+}
+useEffect(() => {
+    if (codeRef.current) codeRef.current.focus();
+}, []);
     return (
         <div className="subjects-mgmt-wrapper">
+            {isDeleteModalOpen && <DeleteCourseModal/>}
             <div className="subjects-main-layout">
                 
                 <div className="subjects-sidebar-pro">
@@ -39,22 +99,27 @@ console.log("course",course);
                     <div className="sidebar-actions-group">
                         <button 
                         className="pro-side-btn btn-reset" 
-                        title="Clear Form">
+                        title="Clear Form"
+                        onClick={handleClear}
+                        >
                             <RotateCcw size={20} />
                         </button>
                         <button 
                         className="pro-side-btn btn-save" 
-                        title="Save Subject">
-                            <Database size={20} />
+                        title="Save Subject"
+                        onClick={handleSave}>
+                            <Save  size={20} />
                         </button>
                         <button 
                         className="pro-side-btn btn-delete" 
-                        title="Delete Subject">
+                        title="Delete Subject"
+                        onClick={handleDelete}>
                             <Trash2 size={20} />
                         </button>
                         <button 
                         className="pro-side-btn btn-view" 
-                        title="Search Subjects">
+                        title="Search Subjects" 
+                        onClick={()=>navigte('/previewcourses')}>
                             <Search size={20} />
                         </button>
                     </div>
@@ -74,7 +139,6 @@ console.log("course",course);
                                 <label>Serial</label>
                                 <input 
                                 type="text" 
-                                ref={codeRef}
                                 name='Serial'
                                 value={course.Serial || 0}
                                 disabled
@@ -86,7 +150,7 @@ console.log("course",course);
                                 type="text" 
                                 ref={codeRef}
                                 name='CourseCode'
-                                value={course.CourseCode || 0}
+                                value={course.CourseCode || ""}
                                 onChange={handleChange}
                                   />
                             </div>
@@ -95,7 +159,7 @@ console.log("course",course);
                                 <input 
                                 type="text"
                                 name='CourseName'
-                                value={course.CourseName || ""}
+                                value={course.CourseName || "" }
                                 onChange={handleChange}
                                 />
                             </div>
@@ -103,8 +167,8 @@ console.log("course",course);
                                 <label>Students Max No.</label>
                                 <input 
                                 type="number"
-                                name='StudentsNo'
-                                value={course.StudentsNo || 0}
+                                name='MaxStudents'
+                                value={course.MaxStudents || 0}
                                 onChange={handleChange}
                                 />
                             </div>
@@ -147,24 +211,39 @@ console.log("course",course);
                                 <span>Weekly Schedule Slots</span>
                             </div>
                             <div className="sub-field-row wrap-logic">
-                                <div className="slot-input-wrapper">                             
+                               <div className="days-flex-group">
+                          {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => {
+                            const daysString = course?.Schedule?.Days || "";
+                            const selectedDaysArray = daysString
+                                .split(',')
+                                .map(d => d.trim());
+
+                            const isChecked = selectedDaysArray.includes(day);
+
+                            return (
+                                <label key={day} className={`day-chip ${isChecked ? 'active' : ''}`}>
                                     <input 
-                                    type="text"
-                                    placeholder='Days'
-                                    name='Days'
-                                    value={course.Schedule.Days || ""}
-                                    onChange={handleChange}
-                                     />
+                                        type="checkbox" 
+                                        name="Days" 
+                                        value={day} 
+                                        checked={isChecked}
+                                        onChange={handleDayChange} 
+                                        hidden 
+                                    />
+                                    {day}
+                                </label>
+                            );
+})}
                                 </div>
                                 <div className="slot-input-wrapper">
                                     <input 
                                     type="text"
                                     placeholder='Lectures'
                                     name='Lectures'
-                                    value={course.Schedule.Lectures || ""}
+                                    value={course?.Schedule?.Lectures || ""}
                                     onChange={handleChange}
                                      />
-                                </div>
+                                </div> 
                             </div>
                         </div>
                     </div>
